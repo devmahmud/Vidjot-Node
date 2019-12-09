@@ -10,11 +10,16 @@ const methodOverride = require("method-override");
 
 const app = express();
 
+// Load Routes
+const ideas = require("./routes/ideas");
+const users = require("./routes/users");
+
+// Database Config
+const db = require("./config/database");
+
 // Passport Config
 require("./config/passport")(passport);
 
-// Database config
-const db = require("./config/database");
 // Connect to mongoose
 mongoose
   .connect(db.mongoURI, {
@@ -77,8 +82,8 @@ app.get("/about", (req, res) => {
 });
 
 // Use Routes
-app.use("/ideas", require("./routes/ideas"));
-app.use("/users", require("./routes/users"));
+app.use("/ideas", ideas);
+app.use("/users", users);
 const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {
